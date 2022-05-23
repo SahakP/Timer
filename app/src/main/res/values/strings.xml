@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TimerListView</string>
+    <string name="label_text">label text</string>
+    <string name="button_text_pause">PAUSE</string>
+    <string name="button_text"></string>
+    <string name="button_text_stop">Stop</string>
+
 </resources>
