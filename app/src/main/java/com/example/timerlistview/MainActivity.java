@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         textViewSecond = (TextView) findViewById(R.id.textViewSecond);
         textViewMinutes = (TextView) findViewById(R.id.textViewMinutes);
         showTextView = (TextView) findViewById(R.id.showTextView);
-        under_numbers = (ImageView)findViewById(R.id.under_numbers);
+        under_numbers = (ImageView) findViewById(R.id.under_numbers);
 
 
         textViewSecond.setOnClickListener(new View.OnClickListener() {
@@ -66,20 +66,14 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent i = new Intent(MainActivity.this, StartedActivity.class);
-                startActivityForResult(i, NUMBER_START);*/
                 start.setVisibility(View.INVISIBLE);
                 pause.setVisibility(View.VISIBLE);
-
                 stop.setVisibility(View.VISIBLE);
-
                 textViewMinutes.setVisibility(View.INVISIBLE);
                 textViewSecond.setVisibility(View.INVISIBLE);
                 under_numbers.setVisibility(View.INVISIBLE);
                 toStart();
             }
-
-
         });
     }
 
@@ -90,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 showTextView.setText(String.valueOf(millisUntilFinished / 1000));
             }
+
             public void onFinish() {
                 showTextView.setText("done!");
             }
@@ -112,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String str = showTextView.getText().toString();
-                count=Integer.parseInt(str);
+                count = Integer.parseInt(str);
                 toStart();
                 play.setVisibility(View.INVISIBLE);
                 pause.setVisibility(View.VISIBLE);
@@ -120,19 +115,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCountDownTimer.cancel();
-                showTextView.setText("Stop");
+                showTextView.setText("STOP");
+                play.setVisibility(View.INVISIBLE);
                 pause.setVisibility(View.INVISIBLE);
                 start.setVisibility(View.VISIBLE);
                 textViewMinutes.setVisibility(View.VISIBLE);
                 textViewSecond.setVisibility(View.VISIBLE);
                 stop.setVisibility(View.INVISIBLE);
                 under_numbers.setVisibility(View.VISIBLE);
-
             }
         });
     }
