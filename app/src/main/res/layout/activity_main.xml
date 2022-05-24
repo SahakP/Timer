@@ -98,17 +98,17 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="164dp"
+            android:layout_height="152dp"
             app:srcCompat="@drawable/mask_group"
             android:id="@+id/stopImageButton"
             android:backgroundTintMode="multiply"
-            android:backgroundTint="#01071D"
-            android:visibility="invisible"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="136dp" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="244dp"
+            android:visibility="invisible" />
 
     <ImageView
             android:layout_width="389dp"
