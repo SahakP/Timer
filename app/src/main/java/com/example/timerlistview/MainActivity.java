@@ -1,8 +1,5 @@
 package com.example.timerlistview;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -10,25 +7,39 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    static final private int NUMBER_MINUTES = 0;
-    static final private int NUMBER_SECOND = 1;
-    private TextView textViewSecond;
-    private TextView textViewMinutes;
+
     public TextView showTextView;
+    public TextView textViewHour;
+    public TextView textViewMinute;
+    public TextView textViewSecond;
+    public TextView textView7;
+    public TextView textView;
+    public TextView textView2;
+    public TextView textView6;
+
     private Button start;
     private Button play;
     private Button pause;
     private ImageButton stop;
-    private ImageView under_numbers;
-    static int count;
+    private int count;
+    private int selected_minute, selected_hour, selected_second;
+
+    private NumberPicker minute;
+    private NumberPicker hour;
+    private NumberPicker second;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -39,122 +50,166 @@ public class MainActivity extends AppCompatActivity {
         play = (Button) findViewById(R.id.playButton);
         pause = (Button) findViewById(R.id.pauseButton);
         stop = (ImageButton) findViewById(R.id.stopImageButton);
-        textViewSecond = (TextView) findViewById(R.id.textViewSecond);
-        textViewMinutes = (TextView) findViewById(R.id.textViewMinutes);
         showTextView = (TextView) findViewById(R.id.showTextView);
-        under_numbers = (ImageView) findViewById(R.id.under_numbers);
+
+        textViewHour = (TextView) findViewById(R.id.textViewHour);
+        textViewMinute = (TextView) findViewById(R.id.textViewMinute);
+        textViewSecond = (TextView) findViewById(R.id.textViewSecond);
+
+        textView = (TextView) findViewById(R.id.textView);
+        textView2 = (TextView) findViewById(R.id.textView2);
+        textView7 = (TextView) findViewById(R.id.textView7);
+        textView6 = (TextView) findViewById(R.id.textView6);
 
 
-        textViewSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TimeSelectActivity.class);
-                startActivityForResult(i, NUMBER_SECOND);
-            }
+        second = (NumberPicker) findViewById(R.id.second);
+        minute = (NumberPicker) findViewById(R.id.minute);
+        hour = (NumberPicker) findViewById(R.id.hour);
+        second.setMinValue(0);
+        second.setMaxValue(59);
+        minute.setMinValue(0);
+        minute.setMaxValue(59);
+        hour.setMinValue(0);
+        hour.setMaxValue(23);
+        second.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        hour.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        minute.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        second.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            selected_second = newVal;
+            textViewSecond.setText(String.valueOf(selected_second));
+
+        });
+        minute.setOnValueChangedListener((spinner, oldVal, newVal) -> {
+            selected_minute = newVal;
+            textViewMinute.setText(String.valueOf(selected_minute));
+
+        });
+        hour.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            selected_hour = newVal;
+            textViewHour.setText(String.valueOf(selected_hour));
         });
 
-        textViewMinutes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent i = new Intent(MainActivity.this, TimeSelectActivity.class);
-                startActivityForResult(i, NUMBER_MINUTES);
-            }
-        });
+        start.setOnClickListener(v -> {
+            pause.setVisibility(View.VISIBLE);
+            stop.setVisibility(View.VISIBLE);
 
+            minute.setVisibility(View.INVISIBLE);
+            second.setVisibility(View.INVISIBLE);
+            hour.setVisibility(View.INVISIBLE);
+            minute.setVisibility(View.INVISIBLE);
+            start.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.INVISIBLE);
+            textView2.setVisibility(View.INVISIBLE);
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                start.setVisibility(View.INVISIBLE);
-                pause.setVisibility(View.VISIBLE);
-                stop.setVisibility(View.VISIBLE);
-                textViewMinutes.setVisibility(View.INVISIBLE);
-                textViewSecond.setVisibility(View.INVISIBLE);
-                under_numbers.setVisibility(View.INVISIBLE);
-                toStart();
-            }
+            count = selected_second + selected_minute * 60 + selected_hour * 3600;
+            toStart();
         });
     }
+
 
     public void toStart() {
 
         CountDownTimer mCountDownTimer = new CountDownTimer(count * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                showTextView.setText(String.valueOf(millisUntilFinished / 1000));
+
+                if (selected_second == 0 && selected_minute > 0 && selected_hour > 0) {
+                    selected_minute--;
+                    selected_second = 59;
+                } else {
+                    if (selected_second == 0 && selected_minute == 0 && selected_hour > 0) {
+                        selected_hour--;
+                        selected_minute = 59;
+                        selected_second = 59;
+                    } else {
+                        if (selected_second == 0 && selected_minute > 0 && selected_hour == 0) {
+                            selected_minute--;
+                            selected_second = 59;
+                        } else {
+                            selected_second--;
+                        }
+                    }
+                }
+                textViewHour.setText(String.valueOf(selected_hour));
+                textViewMinute.setText(String.valueOf(selected_minute));
+                textViewSecond.setText(String.valueOf(selected_second));
+
+
             }
 
             public void onFinish() {
+                textView7.setVisibility(View.INVISIBLE);
+                textView6.setVisibility(View.INVISIBLE);
+                textViewHour.setVisibility(View.INVISIBLE);
+                textViewMinute.setVisibility(View.INVISIBLE);
+                textViewSecond.setVisibility(View.INVISIBLE);
+                showTextView.setVisibility(View.VISIBLE);
                 showTextView.setText("done!");
+
             }
         }.start();
 
 
-        pause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String str = showTextView.getText().toString();
-                mCountDownTimer.cancel();
-                showTextView.setText(str);
-                pause.setVisibility(View.INVISIBLE);
-                play.setVisibility(View.VISIBLE);
-            }
+        pause.setOnClickListener(v -> {
+            String strHour = textViewHour.getText().toString();
+            String strMinute = textViewMinute.getText().toString();
+            String strSecond = textViewSecond.getText().toString();
+            mCountDownTimer.cancel();
+            textViewHour.setText(strHour);
+            textViewMinute.setText(strMinute);
+            textViewSecond.setText(strSecond);
+            pause.setVisibility(View.INVISIBLE);
+            play.setVisibility(View.VISIBLE);
         });
 
 
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String str = showTextView.getText().toString();
-                count = Integer.parseInt(str);
-                toStart();
-                play.setVisibility(View.INVISIBLE);
-                pause.setVisibility(View.VISIBLE);
-            }
+        play.setOnClickListener(v -> {
+            String strHour = textViewHour.getText().toString();
+            String strMinute = textViewMinute.getText().toString();
+            String strSecond = textViewSecond.getText().toString();
+            count = Integer.parseInt(strHour) * 3600 + Integer.parseInt(strMinute) * 60 + Integer.parseInt(strSecond);
+            toStart();
+            play.setVisibility(View.INVISIBLE);
+            pause.setVisibility(View.VISIBLE);
         });
 
 
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCountDownTimer.cancel();
-                showTextView.setText("STOP");
-                play.setVisibility(View.INVISIBLE);
-                pause.setVisibility(View.INVISIBLE);
-                start.setVisibility(View.VISIBLE);
-                textViewMinutes.setVisibility(View.VISIBLE);
-                textViewSecond.setVisibility(View.VISIBLE);
-                stop.setVisibility(View.INVISIBLE);
-                under_numbers.setVisibility(View.VISIBLE);
-            }
+        stop.setOnClickListener(v -> {
+            mCountDownTimer.cancel();
+            textViewHour.setText("0");
+            textViewMinute.setText("0");
+            textViewSecond.setText("0");
+            selected_second = 0;
+            selected_hour = 0;
+            selected_minute = 0;
+            second.setValue(0);
+            minute.setValue(0);
+            hour.setValue(0);
+
+            start.setVisibility(View.VISIBLE);
+            textView6.setVisibility(View.VISIBLE);
+            textView7.setVisibility(View.VISIBLE);
+            textViewHour.setVisibility(View.VISIBLE);
+            textViewMinute.setVisibility(View.VISIBLE);
+            textViewSecond.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            textView2.setVisibility(View.VISIBLE);
+            hour.setVisibility(View.VISIBLE);
+            minute.setVisibility(View.VISIBLE);
+            start.setVisibility(View.VISIBLE);
+            second.setVisibility(View.VISIBLE);
+
+            showTextView.setVisibility(View.INVISIBLE);
+            play.setVisibility(View.INVISIBLE);
+            pause.setVisibility(View.INVISIBLE);
+            stop.setVisibility(View.INVISIBLE);
         });
     }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == NUMBER_MINUTES) {
-            if (resultCode == RESULT_OK) {
-                int number_minutes = data.getIntExtra(TimeSelectActivity.KEY, 0);
-                textViewMinutes.setText(String.valueOf(number_minutes));
-                count = number_minutes * 60;
-            } else {
-                textViewMinutes.setText("00");
-            }
-        }
-
-        if (requestCode == NUMBER_SECOND) {
-            if (resultCode == RESULT_OK) {
-                int number_second = data.getIntExtra(TimeSelectActivity.KEY, 0);
-                textViewSecond.setText(String.valueOf(number_second));
-                count += number_second;
-            } else {
-                textViewSecond.setText("00");
-            }
-        }
-    }
-
-
 }
+
+
+
+
+
