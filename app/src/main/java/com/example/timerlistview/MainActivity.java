@@ -11,6 +11,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import java.util.concurrent.Flow;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView textView;
     public TextView textView2;
     public TextView textView6;
+
 
     private Button start;
     private Button play;
@@ -40,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
 
         start = (Button) findViewById(R.id.startButton);
         play = (Button) findViewById(R.id.playButton);
@@ -111,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toStart() {
 
-        CountDownTimer mCountDownTimer = new CountDownTimer(count * 1000, 1000) {
+        CountDownTimer mCountDownTimer = new CountDownTimer(count * 1000L, 1000) {
 
             public void onTick(long millisUntilFinished) {
 
@@ -178,9 +184,9 @@ public class MainActivity extends AppCompatActivity {
 
         stop.setOnClickListener(v -> {
             mCountDownTimer.cancel();
-            textViewHour.setText("0");
-            textViewMinute.setText("0");
-            textViewSecond.setText("0");
+            textViewHour.setText("00");
+            textViewMinute.setText("00");
+            textViewSecond.setText("00");
             selected_second = 0;
             selected_hour = 0;
             selected_minute = 0;
