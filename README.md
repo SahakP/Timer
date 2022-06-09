@@ -1,4 +1,3 @@
-# Timer![Screenshot_20220524_120413](https://user-images.githubusercontent.com/102030215/170011145-b5b360ac-5074-413f-923c-b7574a130144.png)
-![Screenshot_20220524_120938](https://user-images.githubusercontent.com/102030215/170011384-acf0f18a-b9b2-4ac4-997b-3625e7e90184.png)
-![Screenshot_20220524_121000](https://user-images.githubusercontent.com/102030215/170011391-8988a970-51df-4d30-8bbb-5d50e2755c32.png)
-![Screenshot_20220524_121024](https://user-images.githubusercontent.com/102030215/170011393-b45c398c-15d4-404b-89a4-79d508fb6197.png)
+# Timer![Screenshot_20220524_120413]![Screenshot_20220609_102319](https://user-images.githubusercontent.com/102030215/172789928-91e23e5b-c3d5-469b-a026-8516565705a6.png)
+![Screenshot_20220609_102509](https://user-images.githubusercontent.com/102030215/172789931-659d6474-b65c-44c2-8eb2-0d3cdcef71b0.png)
+![Screenshot_20220609_102637](https://user-images.githubusercontent.com/102030215/172789935-358abaa8-0270-41ea-98ef-bafeed001a82.png)
