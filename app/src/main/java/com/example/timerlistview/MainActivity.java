@@ -1,5 +1,11 @@
 package com.example.timerlistview;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -11,9 +17,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import java.util.concurrent.Flow;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     public TextView textView2;
     public TextView textView6;
 
+    private NotificationHelper mNotificationHelper;
+
 
     private Button start;
     private Button play;
@@ -39,10 +46,11 @@ public class MainActivity extends AppCompatActivity {
     private NumberPicker hour;
     private NumberPicker second;
 
+    public static final String NOTIFICATION_CHANNEL_ID_MAIN = "122334";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         super.onCreate(savedInstanceState);
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+        mNotificationHelper = new NotificationHelper(this);
 
         start = (Button) findViewById(R.id.startButton);
         play = (Button) findViewById(R.id.playButton);
@@ -58,9 +67,11 @@ public class MainActivity extends AppCompatActivity {
         stop = (ImageButton) findViewById(R.id.stopImageButton);
         showTextView = (TextView) findViewById(R.id.showTextView);
 
+
         textViewHour = (TextView) findViewById(R.id.textViewHour);
         textViewMinute = (TextView) findViewById(R.id.textViewMinute);
         textViewSecond = (TextView) findViewById(R.id.textViewSecond);
+
 
         textView = (TextView) findViewById(R.id.textView);
         textView2 = (TextView) findViewById(R.id.textView2);
@@ -80,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         second.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         hour.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         minute.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
 
         second.setOnValueChangedListener((picker, oldVal, newVal) -> {
             selected_second = newVal;
@@ -114,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    public void sendOnChannel() {
+        NotificationCompat.Builder nb = mNotificationHelper.getChannelNotification();
+        mNotificationHelper.getManager().notify(1, nb.build());
+    }
 
     public void toStart() {
 
@@ -153,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
                 textViewSecond.setVisibility(View.INVISIBLE);
                 showTextView.setVisibility(View.VISIBLE);
                 showTextView.setText("done!");
+                sendOnChannel();
+
 
             }
         }.start();
